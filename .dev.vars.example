@@ -1,0 +1,8 @@
+# Cloudflare/Vinext backend config: copy to .dev.vars, which is ignored by Git.
+# Existing local keys must be preserved when editing an existing .dev.vars.
+FC_DATABASE_PROVIDER=supabase
+SUPABASE_URL=https://ybrqqcxpzkogurvhbzlx.supabase.co
+SUPABASE_SECRET_KEY=replace_with_server_secret_from_supabase
+# Generate once: node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+# Share the SAME FC_DATA_KEY privately across backends using the same database.
+FC_DATA_KEY=replace_with_64_hex_characters

@@ -2,6 +2,8 @@
 
 Base URL là URL backend Family Care, không phải URL Supabase. Giữ `/api` một lần: ví dụ `https://backend.example/api/device/enroll`. JSON UTF-8, timestamp milliseconds UTC, phút usage có thể là số thập phân, thời lượng cuộc gọi là giây.
 
+Luồng mới xin gỡ app: [hợp đồng chống gỡ và duyệt gỡ](removal-contract.md). Client trẻ cũ chưa thực thi lệnh này; chỉ báo capability khi có OS support thật. App quản lý là web/Android/iPhone PWA.
+
 ## Tài khoản và ghép
 
 - Người lớn: `POST /api/auth/register` với `{name,email,password}` (password >=12 ký tự), hoặc `POST /api/auth/login` với `{email,password}`. Giữ cookie session do server trả; không dùng thông tin Supabase Auth thay thế.

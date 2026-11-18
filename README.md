@@ -1,5 +1,7 @@
 # Family Care — dữ liệu thật
 
+Phạm vi phát triển hiện tại là **app quản lý web + APK Android + iPhone web app thêm vào màn hình chính**, cùng backend và AI/báo cáo. App trẻ giữ để bạn cùng nhóm tiếp tục. Xem [các bản quản lý](docs/manager-platforms.md) và [hợp đồng xin gỡ app trẻ](docs/removal-contract.md). Mở `/install` để xem cách cài quản lý trên điện thoại.
+
 ## Database online dùng chung: Supabase
 
 Dự án đã có adapter Supabase PostgreSQL qua HTTPS, giữ nguyên API của hai app. Xem [hướng dẫn Supabase](docs/supabase-setup.md), [hợp đồng API thiết bị](docs/device-api.md) và [cách cộng tác qua GitHub](CONTRIBUTING.md).

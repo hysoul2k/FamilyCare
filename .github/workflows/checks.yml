@@ -16,4 +16,4 @@ jobs:
       - run: npm ci
       - run: npm test
       - run: npm run typecheck
-      - run: npx eslint lib/server/database.mjs lib/server/supabase.mjs lib/server/postgres-sql.mjs utils/supabase scripts/check-supabase.mjs scripts/prepare-supabase.mjs tests/supabase.test.mjs tests/database-config.test.mjs
+      - run: npx eslint lib/server/database.mjs lib/server/supabase.mjs lib/server/postgres-sql.mjs lib/server/removal.mjs components/manager-removal-panel.tsx app/install/page.tsx utils/supabase scripts/check-supabase.mjs scripts/prepare-supabase.mjs tests/supabase.test.mjs tests/database-config.test.mjs tests/removal.test.mjs tests/e2e/manager-install.spec.ts tests/e2e/manager-removal.spec.ts

@@ -125,3 +125,21 @@ test('Supabase credentials/config fail closed; transport errors never expose sec
  const db=createSupabaseDatabase({url:projectUrl,secretKey:'secret',fetcher:async()=>Response.json({message:'secret SQL details'},{status:403})});
  await assert.rejects(db.prepare('SELECT 1').first(),error=>!error.message.includes('secret')&&!error.message.includes('SQL details'));
 });
+
+test('Supabase removal approval is atomic, device-scoped and completes with credential revocation',async t=>{
+ const {owner,child}=await household(t);
+ const enroll=async()=>{const pair=(await owner('pairing',{childId:child.id})).body;return (await owner('device/enroll',{code:pair.code,name:'Removal phone',platform:'Android'})).body;};
+ const device=await enroll(),otherDevice=await enroll();
+ const dev=(path,body,token=device.token)=>owner('device/'+path,body,body?'POST':'GET',token);
+ await dev('heartbeat',{capabilities:{uninstall_protection:'supported'},uninstallProtection:'enabled'});
+ const request=await dev('removal-requests',{clientRequestId:crypto.randomUUID(),reason:'Replace consenting test device'});assert.equal(request.status,201);
+ const approval=await owner('removal-requests/'+request.body.id+'/decision',{decision:'approved'});assert.equal(approval.status,200);
+ assert.equal((await owner('removal-requests/'+request.body.id+'/decision',{decision:'approved'})).status,409);
+ assert.equal((await dev('commands/'+approval.body.commandId+'/results',{status:'acknowledged'},otherDevice.token)).status,404);
+ assert.equal((await dev('commands/'+approval.body.commandId+'/results',{status:'acknowledged'})).status,200);
+ assert.equal((await dev('commands/'+approval.body.commandId+'/results',{status:'applied'})).body.credentialRevoked,true);
+ assert.equal((await dev('policy')).status,401);
+ assert.equal((await dev('policy',undefined,otherDevice.token)).status,200);
+ const view=(await owner('bootstrap')).body;
+ assert.equal(view.records.find(r=>r.id===request.body.id).data.status,'released');
+});

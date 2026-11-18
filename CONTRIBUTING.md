@@ -1,5 +1,12 @@
 # Phát triển cùng nhau
 
+## Phân công hiện tại
+
+- Chủ dự án: app quản lý web/Android/iPhone PWA, backend/Supabase, dữ liệu và AI/báo cáo.
+- Bạn cùng nhóm: app trẻ Android/iOS, quyền OS, thu dữ liệu và thực thi chính sách/lệnh; tham khảo mã trẻ hiện có.
+- Cùng thống nhất hợp đồng ở `docs/device-api.md` và `docs/removal-contract.md`. Chỉ làm app trẻ thì dùng URL backend và token thiết bị; không cần secret Supabase.
+- iOS quản lý theo yêu cầu hiện tại là Safari web app thêm vào màn hình chính, không cần project Swift/TestFlight. Xem `docs/manager-platforms.md`.
+
 ## Cài trên máy mới
 
 Node >=22.16, khuyến nghị Node 24 như CI. Chạy `npm ci`. Chọn một cách:

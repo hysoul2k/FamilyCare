@@ -1,0 +1,2 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {vault} from '../lib/server/vault.mjs';
+test('private content encrypted at rest and tampering rejected',()=>{const v=vault('ab'.repeat(32)),sealed=v.seal({text:'Nội dung riêng tư'});assert.ok(!JSON.stringify(sealed).includes('Nội dung'));assert.deepEqual(v.open(sealed),{text:'Nội dung riêng tư'});assert.throws(()=>vault('cd'.repeat(32)).open(sealed));assert.throws(()=>vault().seal('private'));});

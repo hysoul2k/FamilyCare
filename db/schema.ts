@@ -1,0 +1,10 @@
+﻿import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core';
+export const families=sqliteTable('families',{id:text('id').primaryKey(),ownerId:text('owner_id').notNull().unique(),name:text('name').notNull(),createdAt:integer('created_at').notNull()});
+export const records=sqliteTable('records',{id:text('id').primaryKey(),familyId:text('family_id').notNull().references(()=>families.id),kind:text('kind').notNull(),data:text('data',{mode:'json'}).notNull().$type<Record<string,any>>(),createdAt:integer('created_at').notNull()});
+export const pairings=sqliteTable('pairings',{tokenHash:text('token_hash').primaryKey(),familyId:text('family_id').notNull(),childId:text('child_id').notNull(),expiresAt:integer('expires_at').notNull(),consumedAt:integer('consumed_at')});
+export const credentials=sqliteTable('credentials',{tokenHash:text('token_hash').primaryKey(),deviceId:text('device_id').notNull(),familyId:text('family_id').notNull(),revokedAt:integer('revoked_at')});
+export const events=sqliteTable('events',{id:text('id').primaryKey(),deviceId:text('device_id').notNull(),familyId:text('family_id').notNull(),eventId:text('event_id').notNull(),kind:text('kind').notNull(),capturedAt:integer('captured_at').notNull(),payload:text('payload',{mode:'json'}).notNull().$type<Record<string,any>>()},t=>[uniqueIndex('device_event').on(t.deviceId,t.eventId)]);
+export const accounts=sqliteTable('accounts',{id:text('id').primaryKey(),email:text('email').notNull().unique(),displayName:text('display_name').notNull(),passwordHash:text('password_hash').notNull(),createdAt:integer('created_at').notNull()});
+export const sessions=sqliteTable('sessions',{tokenHash:text('token_hash').primaryKey(),userId:text('user_id').notNull().references(()=>accounts.id,{onDelete:'cascade'}),expiresAt:integer('expires_at').notNull(),createdAt:integer('created_at').notNull()});
+export const rateLimits=sqliteTable('rate_limits',{key:text('key').primaryKey(),count:integer('count').notNull(),resetAt:integer('reset_at').notNull()});
+export const serviceState=sqliteTable('service_state',{key:text('key').primaryKey(),value:text('value').notNull()});
